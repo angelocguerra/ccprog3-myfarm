@@ -256,5 +256,6 @@ public class Game {
                 gameRun=true;
             }
         } while (gameRun);
+        scan.close();
     }
 }
