@@ -1,11 +1,17 @@
-public class Farm {
+/**
+ * This class contains all farm details (tiles) and actions
+ */
+public class Farm
+{
+    // Tile Instantiation
     private Tile tile = new Tile();
 
-    public Tile getTile() {
+    /**
+     * Purpose: This method allows the program to retrieve and access tile details
+     * @return The tile's details
+     */
+    public Tile getTile()
+    {
         return tile;
-    }
-
-    public void setTile(Tile tile) {
-        this.tile = tile;
     }
 }
