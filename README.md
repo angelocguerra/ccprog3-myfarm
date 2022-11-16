@@ -9,5 +9,5 @@ A command-line prototype implementation of **MyFarm - Farming Simulator**
 
 ---
 
-Created by Rey Vincent Inocencio & Jose Maria Angelo Guerra<br>
-November 2022
+Created by: Rey Vincent Inocencio & Jose Maria Angelo Guerra<br>
+Date Submitted: November 2022
