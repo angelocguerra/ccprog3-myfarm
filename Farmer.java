@@ -1,7 +1,11 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Farmer {
+/**
+ * This class contains all farmer (player) details and actions
+ */
+public class Farmer
+{
     private final String name;
     private FarmerType type = FarmerType.FARMER;
     private int bonusProduceEarnings = 0;
@@ -11,11 +15,19 @@ public class Farmer {
     private int objectCoin = 100;
     Scanner scan = new Scanner(System.in);
 
+    /**
+     * Constructor for Farmer Class
+     * @param name Farmer's Name, from user input in Game class
+     */
     public Farmer(String name)
     {
         this.name = name;
     }
 
+    /**
+     * Purpose: This method allows the farmer (player) to buy seeds
+     * @param seed Object for Seed class, which contains all seed details (amount and Crop details)
+     */
     public void buySeeds(Seed seed)
     {
         int nAmount;
@@ -23,7 +35,7 @@ public class Farmer {
         System.out.println("How many seeds would you like to purchase? ");
         nAmount = scan.nextInt();
         scan.nextLine();
-        if (objectCoin < (seed.getCrop().getSeedCost()-seedCostReduction)*nAmount){
+        if (objectCoin < (seed.getCrop().getSeedCost()-seedCostReduction)*nAmount) {
             System.out.println("Insufficient Funds");
         } else {
             objectCoin-= (seed.getCrop().getSeedCost()-seedCostReduction)*nAmount;
@@ -33,9 +45,15 @@ public class Farmer {
         }
     }
 
+    /**
+     * Purpose: This method allows the farmer (player) to use his available tools
+     * @param tool Object for Tool class, which contains all tool details
+     * @param tile Object for Tile class, where tools will be used upon
+     */
     public void useTool(Tool tool, Tile tile)
     {
-        switch (tool.getName()) {
+        switch (tool.getName())
+        {
             case "Plow Tool" -> tile.setPlowed(true);
             case "Watering Can" -> {
                 tile.setTimesWateredToday(tile.getTimesWateredToday() + 1);
@@ -52,13 +70,17 @@ public class Farmer {
         experience+= tool.getExperienceYield();
     }
 
+    /**
+     * Purpose: This method allows the farmer (player) to plant crops
+     * @param seed Object for Seed class, which concerns all seed details (amount and Crop details)
+     * @param tile Object for Tile class, where seeds (crops) will be planted upon
+     */
     public void plantCrop(Seed seed, Tile tile)
     {
         if (seed.getAmount() == 0)
         {
             System.out.println("No seeds for this plant");
-        } else
-        {
+        } else {
             tile.setFarmed(true);
             tile.setPlant(seed.getCrop().getName());
             tile.setPlantType(seed.getCrop().getType());
@@ -75,27 +97,27 @@ public class Farmer {
         }
     }
 
+    /**
+     * Purpose: This method allows the farmer (player) to harvest crops
+     * @param tile Object for Tile class, where crops will be harvested upon
+     */
     public void harvestCrop(Tile tile)
     {
         Random rand = new Random();
         int produce;
-        if (tile.getMaxProduceYield() == 1)
-        {
+        if (tile.getMaxProduceYield() == 1) {
             produce = 1;
-        } else
-        {
+        } else {
             produce = rand.nextInt(tile.getMaxProduceYield()-tile.getMinProduceYield())+tile.getMinProduceYield();
         }
         double harvestTotal = (produce * (tile.getProductSellPrice() + bonusProduceEarnings));
         double waterBonus = harvestTotal*(.2)*(tile.getTotalTimesWatered()-1);
         double fertilizerBonus = harvestTotal*(.5)*(tile.getTotalTimesFertilized());
         double total;
-        if (tile.getPlantType() == PlantType.FLOWER)
-        {
+        if (tile.getPlantType() == PlantType.FLOWER) {
             total = (1.1) * (harvestTotal+waterBonus+fertilizerBonus);
             System.out.println("Flower bonus! 10%");
-        } else
-        {
+        } else {
             total = (harvestTotal+waterBonus+fertilizerBonus);
         }
 
@@ -108,21 +130,20 @@ public class Farmer {
         tile.reset();
     }
 
+    /**
+     * Purpose: This method allows the player (farmer) to register for a higher statuses
+     * @param tile Object for Tile class, where higher farmer types' benefits will be implemented upon
+     */
     public void registerForHigherStatus(Tile tile)
     {
-        if (type == FarmerType.LEGENDARY_FARMER)
-        {
+        if (type == FarmerType.LEGENDARY_FARMER) {
             System.out.println("You have already achieved max status!");
-        } else if (type == FarmerType.DISTINGUISHED_FARMER)
-        {
-            if (objectCoin < 400)
-            {
+        } else if (type == FarmerType.DISTINGUISHED_FARMER) {
+            if (objectCoin < 400) {
                 System.out.println("Insufficient Funds");
-            } else if (level < 15)
-            {
+            } else if (level < 15) {
                 System.out.println("Your level is not high enough for this status");
-            } else
-            {
+            } else {
                 tile.setWaterBonusLimit(tile.getWaterBonusLimit()+1);
                 tile.setFertilizerBonusLimit(tile.getFertilizerBonusLimit()+1);
                 seedCostReduction = 3;
@@ -131,16 +152,12 @@ public class Farmer {
                 objectCoin-=400;
                 System.out.println("Congratulations! You are now a Legendary Farmer");
             }
-        } else if (type == FarmerType.REGISTERED_FARMER)
-        {
-            if (objectCoin < 300)
-            {
+        } else if (type == FarmerType.REGISTERED_FARMER) {
+            if (objectCoin < 300) {
                 System.out.println("Insufficient Funds");
-            } else if (level < 10)
-            {
+            } else if (level < 10) {
                 System.out.println("Your level is not high enough for this status");
-            } else
-            {
+            } else {
                 tile.setWaterBonusLimit(tile.getWaterBonusLimit()+1);
                 seedCostReduction = 2;
                 bonusProduceEarnings = 2;
@@ -148,16 +165,12 @@ public class Farmer {
                 objectCoin-=300;
                 System.out.println("Congratulations! You are now a Distinguished Farmer");
             }
-        }else
-        {
-            if (objectCoin < 200)
-            {
+        } else {
+            if (objectCoin < 200) {
                 System.out.println("Insufficient Funds");
-            } else if (level < 5)
-            {
+            } else if (level < 5) {
                 System.out.println("Your level is not high enough for this status");
-            } else
-            {
+            } else {
                 seedCostReduction = 1;
                 bonusProduceEarnings = 1;
                 type = FarmerType.REGISTERED_FARMER;
@@ -167,32 +180,59 @@ public class Farmer {
         }
     }
 
+    /**
+     * Purpose: This method allows the farmer (player) to increase his level over playing and gaining experience
+     */
     public void levelUp()
     {
         double levelProgress = experience/level; //
-        if (levelProgress >= 100)
-        {
+        if (levelProgress >= 100) {
             level++;
         }
     }
 
-    public String getName() {
+    /**
+     * Purpose: This getter method allows the program to retrieve and access the name details
+     * @return The name of the farmer (player)
+     */
+    public String getName()
+    {
         return name;
     }
 
-    public FarmerType getType() {
+    /**
+     * Purpose: This getter method allows the program to retrieve and access the farmer type details
+     * @return The type of the farmer (whether Default, Registered, Distinguished, or Legendary)
+     */
+    public FarmerType getType()
+    {
         return type;
     }
 
-    public int getLevel() {
+    /**
+     * Purpose: This getter method allows the program to retrieve and access the farmer's (player) level details
+     * @return The farmer's (player) current level
+     */
+    public int getLevel()
+    {
         return level;
     }
 
-    public double getExperience() {
+    /**
+     * Purpose: This getter method allows the program to retrieve and access the farmer's (player) experience gain
+     * @return The farmer's experience gain
+     */
+    public double getExperience()
+    {
         return experience;
     }
 
-    public int getObjectCoin() {
+    /**
+     * Purpose: This getter method allows the program to retrieve and access the farmer's (player) ObjectCoin amount
+     * @return The farmer's ObjectCoin amount
+     */
+    public int getObjectCoin()
+    {
         return objectCoin;
     }
 }
