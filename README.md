@@ -1,4 +1,4 @@
-# ccprog3-mco1
+# ccprog3-myfarm1
 **CCPROG3 Major Course Output 1: Object-Based Project**
 
 A command-line prototype implementation of **MyFarm - Farming Simulator**
