@@ -3,18 +3,18 @@
  */
 public class Crop
 {
-    private final String name;
-    private final PlantType type;
-    private final int seedCost;
-    private final int harvestTime;
-    private final int waterNeeds;
-    private final int waterBonusLimit;
-    private final int fertilizerNeeds;
-    private final int fertilizerBonusLimit;
-    private final int minProduceYield;
-    private final int maxProduceYield;
-    private final double produceSellPrice;
-    private final double expYield;
+    private String name = "";
+    private PlantType type = PlantType.NULL;
+    private int seedCost = 0;
+    private int harvestTime = 0;
+    private int waterNeeds = 0;
+    private int waterBonusLimit = 0;
+    private int fertilizerNeeds = 0;
+    private int fertilizerBonusLimit = 0;
+    private int minProduceYield = 0;
+    private int maxProduceYield = 0;
+    private double produceSellPrice = 0;
+    private double expYield = 0;
 
     /**
      * Constructor for Crop Class
@@ -45,6 +45,10 @@ public class Crop
         this.maxProduceYield = maxProduceYield;
         this.produceSellPrice = produceSellPrice;
         this.expYield = expYield;
+    }
+
+    public Crop() {
+
     }
 
     /**
@@ -153,5 +157,53 @@ public class Crop
     public double getExpYield()
     {
         return expYield;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(PlantType type) {
+        this.type = type;
+    }
+
+    public void setSeedCost(int seedCost) {
+        this.seedCost = seedCost;
+    }
+
+    public void setHarvestTime(int harvestTime) {
+        this.harvestTime = harvestTime;
+    }
+
+    public void setWaterNeeds(int waterNeeds) {
+        this.waterNeeds = waterNeeds;
+    }
+
+    public void setWaterBonusLimit(int waterBonusLimit) {
+        this.waterBonusLimit = waterBonusLimit;
+    }
+
+    public void setFertilizerNeeds(int fertilizerNeeds) {
+        this.fertilizerNeeds = fertilizerNeeds;
+    }
+
+    public void setFertilizerBonusLimit(int fertilizerBonusLimit) {
+        this.fertilizerBonusLimit = fertilizerBonusLimit;
+    }
+
+    public void setMinProduceYield(int minProduceYield) {
+        this.minProduceYield = minProduceYield;
+    }
+
+    public void setMaxProduceYield(int maxProduceYield) {
+        this.maxProduceYield = maxProduceYield;
+    }
+
+    public void setProduceSellPrice(double produceSellPrice) {
+        this.produceSellPrice = produceSellPrice;
+    }
+
+    public void setExpYield(double expYield) {
+        this.expYield = expYield;
     }
 }

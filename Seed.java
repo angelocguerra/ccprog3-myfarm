@@ -1,10 +1,9 @@
 /**
  * This class contains all seed details inherited from the Crop class
  */
-public class Seed
+public class Seed extends Crop
 {
     private int amount;
-    private final Crop crop;
 
     /**
      * Constructor for Seed Class
@@ -12,8 +11,20 @@ public class Seed
      */
     public Seed (Crop crop)
     {
+        super();
         this.amount = 0;
-        this.crop = crop;
+        this.setName(crop.getName());
+        this.setType(crop.getType());
+        this.setSeedCost(crop.getSeedCost());
+        this.setHarvestTime(crop.getHarvestTime());
+        this.setWaterNeeds(crop.getWaterNeeds());
+        this.setWaterBonusLimit(crop.getWaterBonusLimit());
+        this.setFertilizerNeeds(crop.getFertilizerNeeds());
+        this.setFertilizerBonusLimit(getFertilizerBonusLimit());
+        this.setMinProduceYield(crop.getMinProduceYield());
+        this.setMaxProduceYield(crop.getMaxProduceYield());
+        this.setProduceSellPrice(crop.getProduceSellPrice());
+        this.setExpYield(crop.getExpYield());
     }
 
     /**
@@ -32,14 +43,5 @@ public class Seed
     public void setAmount(int amount)
     {
         this.amount = amount;
-    }
-
-    /**
-     * Purpose: This getter method allows the program to retrieve and access the crop details
-     * @return crop, the instantiated object from the Crop class, which contains all the details on a particular plant
-     */
-    public Crop getCrop()
-    {
-        return crop;
     }
 }

@@ -31,16 +31,16 @@ public class Farmer
     public void buySeeds(Seed seed)
     {
         int nAmount;
-        System.out.println("Seed: "+seed.getCrop().getName());
+        System.out.println("Seed: "+seed.getName());
         System.out.println("How many seeds would you like to purchase? ");
         nAmount = scan.nextInt();
         scan.nextLine();
-        if (objectCoin < (seed.getCrop().getSeedCost()-seedCostReduction)*nAmount) {
+        if (objectCoin < (seed.getSeedCost()-seedCostReduction)*nAmount) {
             System.out.println("Insufficient Funds");
         } else {
-            objectCoin-= (seed.getCrop().getSeedCost()-seedCostReduction)*nAmount;
+            objectCoin-= (seed.getSeedCost()-seedCostReduction)*nAmount;
             seed.setAmount(seed.getAmount()+nAmount);
-            System.out.println("Purchased x" + nAmount + " " + seed.getCrop().getName() + " seeds.");
+            System.out.println("Purchased x" + nAmount + " " + seed.getName() + " seeds.");
             System.out.println("Remaining balance: " + objectCoin);
         }
     }
@@ -82,18 +82,52 @@ public class Farmer
             System.out.println("No seeds for this plant");
         } else {
             tile.setFarmed(true);
-            tile.setPlant(seed.getCrop().getName());
-            tile.setPlantType(seed.getCrop().getType());
-            tile.setDaysToHarvest(seed.getCrop().getHarvestTime());
-            tile.setFertilizerBonusLimit(seed.getCrop().getFertilizerBonusLimit());
-            tile.setFertilizerNeeds(seed.getCrop().getFertilizerNeeds());
-            tile.setWaterBonusLimit(seed.getCrop().getWaterBonusLimit());
-            tile.setWaterNeeds(seed.getCrop().getWaterNeeds());
-            tile.setMinProduceYield(seed.getCrop().getMinProduceYield());
-            tile.setMaxProduceYield(seed.getCrop().getMaxProduceYield());
-            tile.setProductSellPrice(seed.getCrop().getProduceSellPrice());
-            tile.setExpYield(seed.getCrop().getExpYield());
-            System.out.println("Planted " + seed.getCrop().getName() + " on this tile.");
+            tile.setPlant(seed.getName());
+            tile.setPlantType(seed.getType());
+            tile.setDaysToHarvest(seed.getHarvestTime());
+            tile.setFertilizerBonusLimit(seed.getFertilizerBonusLimit());
+            tile.setFertilizerNeeds(seed.getFertilizerNeeds());
+            tile.setWaterBonusLimit(seed.getWaterBonusLimit());
+            tile.setWaterNeeds(seed.getWaterNeeds());
+            tile.setMinProduceYield(seed.getMinProduceYield());
+            tile.setMaxProduceYield(seed.getMaxProduceYield());
+            tile.setProductSellPrice(seed.getProduceSellPrice());
+            tile.setExpYield(seed.getExpYield());
+            System.out.println("Planted " + seed.getName() + " on this tile.");
+        }
+    }
+
+    public void plantCrop(Seed seed, int tens, int ones, Tile[][] tiles)
+    {
+        if (seed.getAmount() == 0)
+        {
+            System.out.println("No seeds for this plant");
+        } else {
+            if (tiles[tens - 1][ones - 1].getIsFarmed() || tiles[tens - 1][ones].getIsFarmed() || tiles[tens - 1][ones + 1].getIsFarmed()
+                    || tiles[tens][ones - 1].getIsFarmed() || tiles[tens][ones + 1].getIsFarmed() || tiles[tens+1][ones-1].getIsFarmed()
+                    || tiles[tens+1][ones].getIsFarmed() || tiles[tens+1][ones+1].getIsFarmed() || tiles[tens - 1][ones - 1].getIsWithered()
+                    || tiles[tens - 1][ones].getIsWithered() || tiles[tens - 1][ones + 1].getIsWithered() || tiles[tens][ones - 1].getIsWithered()
+                    || tiles[tens][ones + 1].getIsWithered() || tiles[tens+1][ones-1].getIsWithered() || tiles[tens+1][ones].getIsWithered()
+                    || tiles[tens+1][ones+1].getIsWithered() || tiles[tens - 1][ones - 1].getIsRockPlaced() || tiles[tens - 1][ones].getIsRockPlaced()
+                    || tiles[tens - 1][ones + 1].getIsRockPlaced() || tiles[tens][ones - 1].getIsRockPlaced() || tiles[tens][ones + 1].getIsRockPlaced()
+                    || tiles[tens+1][ones-1].getIsRockPlaced() || tiles[tens+1][ones].getIsRockPlaced() || tiles[tens+1][ones+1].getIsRockPlaced())
+            {
+                System.out.println("There are objects obstructing the tree. Please clear them first");
+            } else {
+                tiles[tens][ones].setFarmed(true);
+                tiles[tens][ones].setPlant(seed.getName());
+                tiles[tens][ones].setPlantType(seed.getType());
+                tiles[tens][ones].setDaysToHarvest(seed.getHarvestTime());
+                tiles[tens][ones].setFertilizerBonusLimit(seed.getFertilizerBonusLimit());
+                tiles[tens][ones].setFertilizerNeeds(seed.getFertilizerNeeds());
+                tiles[tens][ones].setWaterBonusLimit(seed.getWaterBonusLimit());
+                tiles[tens][ones].setWaterNeeds(seed.getWaterNeeds());
+                tiles[tens][ones].setMinProduceYield(seed.getMinProduceYield());
+                tiles[tens][ones].setMaxProduceYield(seed.getMaxProduceYield());
+                tiles[tens][ones].setProductSellPrice(seed.getProduceSellPrice());
+                tiles[tens][ones].setExpYield(seed.getExpYield());
+                System.out.println("Planted " + seed.getName() + " on this tile.");
+            }
         }
     }
 
@@ -132,9 +166,9 @@ public class Farmer
 
     /**
      * Purpose: This method allows the player (farmer) to register for a higher statuses
-     * @param tile Object for Tile class, where higher farmer types' benefits will be implemented upon
+     * @param tiles Object for Tile class, where higher farmer types' benefits will be implemented upon
      */
-    public void registerForHigherStatus(Tile tile)
+    public void registerForHigherStatus(Tile[][] tiles)
     {
         if (type == FarmerType.LEGENDARY_FARMER) {
             System.out.println("You have already achieved max status!");
@@ -144,8 +178,14 @@ public class Farmer
             } else if (level < 15) {
                 System.out.println("Your level is not high enough for this status");
             } else {
-                tile.setWaterBonusLimit(tile.getWaterBonusLimit()+1);
-                tile.setFertilizerBonusLimit(tile.getFertilizerBonusLimit()+1);
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        tiles[i][j].setWaterBonusLimit(tiles[i][j].getWaterBonusLimit()+1);
+                        tiles[i][j].setFertilizerBonusLimit(tiles[i][j].getFertilizerBonusLimit()+1);
+                    }
+                }
                 seedCostReduction = 3;
                 bonusProduceEarnings = 4;
                 type = FarmerType.LEGENDARY_FARMER;
@@ -158,7 +198,13 @@ public class Farmer
             } else if (level < 10) {
                 System.out.println("Your level is not high enough for this status");
             } else {
-                tile.setWaterBonusLimit(tile.getWaterBonusLimit()+1);
+                for (int i = 0; i < 5; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        tiles[i][j].setWaterBonusLimit(tiles[i][j].getWaterBonusLimit()+1);
+                    }
+                }
                 seedCostReduction = 2;
                 bonusProduceEarnings = 2;
                 type = FarmerType.DISTINGUISHED_FARMER;
