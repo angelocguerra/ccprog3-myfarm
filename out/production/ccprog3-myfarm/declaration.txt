@@ -1,9 +1,0 @@
-This is to certify that this project is our own work, based on our personal efforts in studying and applying the concepts learned.
-We have constructed the UML Class Diagram and methods and their respective algorithms and corresponding code by
-ourselves. The program was run, tested, and debugged by our own efforts. We further certify that we have not copied in part
-or whole or otherwise plagiarized the work of other students and/or persons.
-
-GUERRA, Jose Maria Angelo C. - 12182346 - S16
-INOCENCIO, Rey Vincent H. - 12143766 - S16
-
-Date Submitted: November 07, 2022

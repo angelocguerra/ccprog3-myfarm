@@ -17,8 +17,8 @@ public class Crop
     private double expYield = 0;
 
     /**
-     * Constructor for Crop Class
-     * @param name Crop Name
+     * Constructor for src.Crop Class
+     * @param name src.Crop Name
      * @param TYPE Plant Type, from PlantType class
      * @param seedCost Cost to buy the seed
      * @param harvestTime Number of day(s) past before the crop can be harvested

@@ -11,7 +11,7 @@ public class Farmer
     private int bonusProduceEarnings = 0;
     private int seedCostReduction = 0;
     private int level = 1;
-    private double experience = 0;
+    private double experience = 0.0;
     private int objectCoin = 100;
     Scanner scan = new Scanner(System.in);
 
@@ -80,7 +80,8 @@ public class Farmer
         if (seed.getAmount() == 0)
         {
             System.out.println("No seeds for this plant");
-        } else {
+        } else
+        {
             tile.setFarmed(true);
             tile.setPlant(seed.getName());
             tile.setPlantType(seed.getType());
@@ -175,7 +176,7 @@ public class Farmer
         } else if (type == FarmerType.DISTINGUISHED_FARMER) {
             if (objectCoin < 400) {
                 System.out.println("Insufficient Funds");
-            } else if (level < 15) {
+            } else if (level < 15)  {
                 System.out.println("Your level is not high enough for this status");
             } else {
                 for (int i = 0; i < 5; i++)
@@ -214,9 +215,9 @@ public class Farmer
         } else {
             if (objectCoin < 200) {
                 System.out.println("Insufficient Funds");
-            } else if (level < 5) {
+            } else if (level < 5)  {
                 System.out.println("Your level is not high enough for this status");
-            } else {
+            } else  {
                 seedCostReduction = 1;
                 bonusProduceEarnings = 1;
                 type = FarmerType.REGISTERED_FARMER;
@@ -231,7 +232,7 @@ public class Farmer
      */
     public void levelUp()
     {
-        double levelProgress = experience/level; //
+        double levelProgress = experience/level;
         if (levelProgress >= 100) {
             level++;
         }

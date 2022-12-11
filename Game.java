@@ -19,7 +19,7 @@ public class Game
         days++;
         tile.growCrop();
     }
-    
+
     /**
      * Purpose: This method displays the Game's Main Menu
      */
@@ -91,7 +91,6 @@ public class Game
         String farmerName;
         int userInput;
         int userInput2;
-
         int nCounter = 1;
         int tens;
         int ones;
@@ -99,13 +98,13 @@ public class Game
         String[] rocks = new String[50];
         int rockIndex = 0;
 
-         // Crop/Seed Instantiation
+        // Crop/Seed Instantiation
         Crop Turnip    = new Crop("Turnip", PlantType.ROOT_CROP, 5, 2, 1, 2, 0, 1, 1, 2, 6, 5);
         Crop Carrot    = new Crop("Carrot", PlantType.ROOT_CROP, 10, 3, 1, 2, 0, 1, 1, 2, 9, 7.5);
         Crop Potato    = new Crop("Potato", PlantType.ROOT_CROP, 20, 5, 3, 4,1, 2, 1, 10, 3, 12.5);
         Crop Rose      = new Crop("Rose", PlantType.FLOWER, 5, 1, 1, 2, 0, 1, 1, 1, 5, 2.5);
         Crop Tulips    = new Crop("Tulips", PlantType.FLOWER, 10, 2, 2, 3,0, 1, 1, 1,9, 5);
-        Crop Sunflower = new Crop("Sunflower", PlantType.FLOWER, 20, 3, 2, 3,1, 2,1, 1,19, 7.5);
+        Crop Sunflower  = new Crop("Sunflower", PlantType.FLOWER, 20, 3, 2, 3,1, 2,1, 1,19, 7.5);
         Crop Mango     = new Crop("Mango", PlantType.FRUIT_TREE, 100, 10, 7, 7,4, 4, 5, 15, 8, 25);
         Crop Apple     = new Crop("Apple", PlantType.FRUIT_TREE, 200, 10, 7, 7, 5, 5, 10, 15, 5, 25);
 
@@ -114,11 +113,11 @@ public class Game
         Seed PotatoSeed    = new Seed(Potato);
         Seed RoseSeed      = new Seed(Rose);
         Seed TulipsSeed    = new Seed(Tulips);
-        Seed SunflowerSeed = new Seed(Sunflower);
+        Seed SunflowerSeed  = new Seed(Sunflower);
         Seed MangoSeed     = new Seed(Mango);
         Seed AppleSeed     = new Seed(Apple);
 
-        //  Tool Instantiation
+        // Tool Instantiation
         Tool PlowTool    = new Tool("Plow Tool", 0, 0.5);
         Tool WateringCan = new Tool("Watering Can", 0, 0.5);
         Tool Fertilizer  = new Tool("Fertilizer", 10, 4);
@@ -151,7 +150,6 @@ public class Game
             }
         }
 
-        // Main Game Loop
         do {
             displayGameMenu();
             GameMenu = scan.nextInt();
@@ -200,8 +198,11 @@ public class Game
 
                     dayEnd = false;
                     do {
+                        // Display tile status
+                        farm.getTiles().displayTileStatus();
+
                         // Main Game Menu
-                        System.out.println("\n"+farmer.getObjectCoin() + " coins\n");
+                        System.out.println("\n" + farmer.getObjectCoin() + " coins\n");
                         System.out.println("What would you like to do? ");
                         System.out.println("[1] Display Tile Status");
                         System.out.println("[2] Select new tile"); //to implement
@@ -405,7 +406,6 @@ public class Game
                         gameRun = true;
                     }
                 } while (gameRun);
-                scan.close();
             }
         } while (GameMenu != 0);
     }

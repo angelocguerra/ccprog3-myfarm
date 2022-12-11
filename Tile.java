@@ -22,8 +22,8 @@ public class Tile
     private int daysToHarvest = 0;
     private int minProduceYield = 0;
     private int maxProduceYield = 0;
-    private double productSellPrice = 0;
-    private double expYield = 0;
+    private double productSellPrice = 0.0;
+    private double expYield = 0.0;
 
     /**
      * Purpose: This method displays the Tile Status
@@ -32,35 +32,40 @@ public class Tile
     {
         System.out.println("\nTile Status: ");
         System.out.println("Tile Number " + tileNum);
-        if (isRockPlaced) {
+        if (isRockPlaced)
+        {
             System.out.println("""
                     ++++++++++
                     +  /```\\ +
                     +  \\___/ +
                     ++++++++++""");
             System.out.println("There is a rock on this tile.");
-        } else if (!isPlowed) {
+        } else if (!isPlowed)
+        {
             System.out.println("""
                     ++++++++++
                     ++ ++++ ++
                     ++ ++++ ++
                     ++++++++++""");
             System.out.println("This tile is unplowed.");
-        } else if (!isFarmed) {
+        } else if (!isFarmed)
+        {
             System.out.println("""
                     ++++++++++
                     +        +
                     +        +
                     ++++++++++""");
             System.out.println("There is no crop growing on this tile.");
-        } else if (isWithered) {
+        } else if (isWithered)
+        {
             System.out.println("""
                     ++++++++++
                     + /\\-|-/\\+
                     + _/\\|/\\_+
                     ++++++++++""");
             System.out.println("The crop on this tile has withered away.");
-        } else {
+        } else
+        {
             if (isRipe)
             {
                 System.out.println("""
@@ -70,11 +75,11 @@ public class Tile
                     ++++++++++""");
                 System.out.println("This crop is ready to be harvested!\n");
             }
-            System.out.println("Crop: " + getPlant());
+            System.out.println("crop: " + getPlant());
             System.out.println("Type: " + getPlantType());
             System.out.println("Days to Harvest: "+ getDaysToHarvest());
             System.out.println("Times Watered Today: " + getTimesWateredToday());
-            System.out.println("Daily Water Requirement " + getWaterNeeds());
+            System.out.println("Daily Water Requirement: " + getWaterNeeds());
             System.out.println("Times Fertilized Today: " + getTimesFertilizedToday());
             System.out.println("Daily Fertilizer Requirement: " + getFertilizerNeeds());
         }
@@ -89,9 +94,11 @@ public class Tile
         if (isFarmed)
         {
             daysToHarvest--;
-            if (timesWateredToday < waterNeeds || timesFertilizedToday < fertilizerNeeds || daysToHarvest<0) {
+            if (timesWateredToday < waterNeeds || timesFertilizedToday < fertilizerNeeds || daysToHarvest<0)
+            {
                 isWithered = true;
-            } else if (daysToHarvest == 0) {
+            } else if (daysToHarvest == 0)
+            {
                 isRipe = true;
             }
             timesFertilizedToday = 0;
