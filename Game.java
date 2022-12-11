@@ -130,7 +130,10 @@ public class Game
         Farmer farmer = new Farmer(farmerName);
 
         Farm farm = new Farm();
-        File file = new File("C:\\Users\\vinni\\Desktop\\MCO2Rocks.txt");
+        // Gelo's File
+        File file = new File("/Users/angeloguerra/Documents/GitHub/ccprog3-myfarm2/Rocks.txt");
+        // Vinnie's File
+        // File file = new File("C:\\Users\\vinni\\Documents\\GitHub\\ccprog3-myfarm2\\Rocks.txt");
         Scanner scan3 = new Scanner(file);
 
         // GUI Implementation
@@ -204,7 +207,7 @@ public class Game
                     dayEnd = false;
                     do {
                         // Display tile status
-                        farm.getTiles().displayTileStatus();
+                        // farm.getTiles().displayTileStatus();
 
                         // Main Game Menu
                         System.out.println("\n" + farmer.getObjectCoin() + " coins\n");
