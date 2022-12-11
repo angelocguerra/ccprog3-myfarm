@@ -133,6 +133,11 @@ public class Game
         File file = new File("C:\\Users\\vinni\\Desktop\\MCO2Rocks.txt");
         Scanner scan3 = new Scanner(file);
 
+        // GUI Implementation
+        GameView gameView = new GameView();
+        GameModel gameModel = new GameModel();
+        GameController gameController = new GameController(gameView, gameModel);
+
         while (scan3.hasNextLine())
         {
             rocks[rockIndex] = scan3.nextLine();
@@ -140,7 +145,7 @@ public class Game
         }
         farm.setRocks(rocks);
 
-        //setting tile numbers
+        //Setting Tile Numbers
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 10; j++)
