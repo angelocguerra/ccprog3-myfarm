@@ -3,6 +3,7 @@
  */
 public class Tile
 {
+    private int tileNum = 0;
     private boolean isRockPlaced = false;
     private boolean isPlowed = false;
     private boolean isFarmed = false;
@@ -30,6 +31,7 @@ public class Tile
     public void displayTileStatus()
     {
         System.out.println("\nTile Status: ");
+        System.out.println("Tile Number " + tileNum);
         if (isRockPlaced)
         {
             System.out.println("""
@@ -127,6 +129,9 @@ public class Tile
         minProduceYield = 0;
         maxProduceYield = 0;
         productSellPrice = 0;
+    }
+    public void setTileNum(int tileNum) {
+        this.tileNum = tileNum;
     }
 
     /**

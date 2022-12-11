@@ -4,14 +4,26 @@
 public class Farm
 {
     // Tile Instantiation
-    private Tile tile = new Tile();
+    private final Tile[][] tiles = {{new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile()},
+                                    {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile()},
+                                    {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile()},
+                                    {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile()},
+                                    {new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile(), new Tile()}};
 
     /**
-     * Purpose: This method allows the program to retrieve and access tile details
-     * @return The tile's details
+     * Purpose: This method allows the program to retrieve and access tiles details
+     * @return The tiles' details
      */
-    public Tile getTile()
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public void setRocks(String[] rocks)
     {
-        return tile;
+        int k = 0;
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 10; j++)
+                if (!rocks[k].equals("0"))
+                    tiles[i][j].setRockPlaced(true);
     }
 }

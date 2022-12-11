@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -79,8 +81,7 @@ public class Game
         System.out.println("              A.Y. 2022 - 2023\n");
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws FileNotFoundException {
         boolean gameRun;
         boolean dayEnd;
 
@@ -90,6 +91,12 @@ public class Game
         String farmerName;
         int userInput;
         int userInput2;
+        int nCounter = 1;
+        int tens;
+        int ones;
+        int num;
+        String[] rocks = new String[50];
+        int rockIndex = 0;
 
         // Crop/Seed Instantiation
         Crop Turnip    = new Crop("Turnip", PlantType.ROOT_CROP, 5, 2, 1, 2, 0, 1, 1, 2, 6, 5);
@@ -123,6 +130,25 @@ public class Game
         Farmer farmer = new Farmer(farmerName);
 
         Farm farm = new Farm();
+        File file = new File("C:\\Users\\vinni\\Desktop\\MCO2Rocks.txt");
+        Scanner scan3 = new Scanner(file);
+
+        while (scan3.hasNextLine())
+        {
+            rocks[rockIndex] = scan3.nextLine();
+            rockIndex++;
+        }
+        farm.setRocks(rocks);
+
+        //setting tile numbers
+        for (int i = 0; i < 5; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                farm.getTiles()[i][j].setTileNum(nCounter);
+                nCounter++;
+            }
+        }
 
         do {
             displayGameMenu();
@@ -130,8 +156,10 @@ public class Game
 
             if(GameMenu < 0 || GameMenu > 3)
             {
-                System.out.println("Invalid input, Enter again.");
-                GameMenu = scan.nextInt();
+                do{
+                    System.out.println("Invalid input, Enter again.");
+                    GameMenu = scan.nextInt();
+                } while (GameMenu < 0 || GameMenu > 3);
             }
             if (GameMenu == 2) // Display Game Mechanics
             {
@@ -154,32 +182,68 @@ public class Game
                     System.out.println("Level " + farmer.getLevel() + "(" + farmer.getType() + ")");
                     System.out.println("Progress: " + farmer.getExperience() + " exp points");
 
+                    System.out.println("Select a tile: [1 - 50]");
+                    userInput2 = scan.nextInt();
+                    scan.nextLine();
+                    if(userInput2 < 1 || userInput2 > 50)
+                    {
+                        do{
+                            System.out.println("Invalid input, Enter again.");
+                            userInput2 = scan.nextInt();
+                        }while (userInput2 < 1 || userInput2 > 50);
+                    }
+                    num = userInput2-1;
+                    ones = num%10;
+                    tens = num/10;
+
                     dayEnd = false;
                     do {
                         // Display tile status
-                        farm.getTile().displayTileStatus();
+                        farm.getTiles().displayTileStatus();
 
                         // Main Game Menu
                         System.out.println("\n" + farmer.getObjectCoin() + " coins\n");
                         System.out.println("What would you like to do? ");
-                        System.out.println("[1] Buy Seeds");
-                        System.out.println("[2] Use Tools");
-                        System.out.println("[3] Plant Crops");
-                        System.out.println("[4] Harvest Crops");
-                        System.out.println("[5] Register for a higher farmer status");
-                        System.out.println("[6] End the Day");
+                        System.out.println("[1] Display Tile Status");
+                        System.out.println("[2] Select new tile"); //to implement
+                        System.out.println("[3] Buy Seeds");
+                        System.out.println("[4] Use Tools");
+                        System.out.println("[5] Plant Crops");
+                        System.out.println("[6] Harvest Crops");
+                        System.out.println("[7] Register for a higher farmer status");
+                        System.out.println("[8] End the Day");
 
                         userInput = scan.nextInt();
                         scan.nextLine();
 
-                        if(userInput < 1 || userInput > 6)
+                        if(userInput < 1 || userInput > 8)
                         {
-                            System.out.println("Invalid input, Enter again.");
-                            userInput = scan.nextInt();
+                            do{
+                                System.out.println("Invalid input, Enter again.");
+                                userInput = scan.nextInt();
+                            } while (userInput < 1 || userInput > 8);
                         }
                         switch (userInput)
                         {
-                            case (1): // Buy Seeds
+                            case(1):
+                                farm.getTiles()[tens][ones].displayTileStatus();
+                                break;
+                            case (2):
+                                System.out.println("Select a tile: [1 - 50]");
+                                userInput2 = scan.nextInt();
+                                scan.nextLine();
+                                if(userInput2 < 1 || userInput2 > 50)
+                                {
+                                    do{
+                                        System.out.println("Invalid input, Enter again.");
+                                        userInput2 = scan.nextInt();
+                                    }while (userInput2 < 1 || userInput2 > 50);
+                                }
+                                num = userInput2-1;
+                                ones = num%10;
+                                tens = num/10;
+                                break;
+                            case (3): // Buy Seeds
                                 System.out.println("Which type of seeds would you like to buy? ");
                                 System.out.println("[1] Turnip\n[2] Carrot\n[3] Potato\n[4] Rose\n[5] Tulips\n[6] Sunflower\n[7] Mango\n[8] Apple");
                                 userInput2 = scan.nextInt();
@@ -199,10 +263,9 @@ public class Game
                                     case (6) -> farmer.buySeeds(SunflowerSeed);
                                     case (7) -> farmer.buySeeds(MangoSeed);
                                     case (8) -> farmer.buySeeds(AppleSeed);
-                                    default -> System.out.println("Invalid Input.");
                                 }
                                 break;
-                            case (2): // Use Tools
+                            case (4): // Use Tools
                                 System.out.println("Select which tool you would like to use: ");
                                 System.out.println("[1] Plow Tool\n[2] Watering Can\n[3] Fertilizer\n[4] Pickaxe\n[5] Shovel");
                                 userInput2 = scan.nextInt();
@@ -216,49 +279,49 @@ public class Game
                                 switch (userInput2)
                                 {
                                     case (1): // Plow Tool
-                                        if (farm.getTile().getIsPlowed()) {
+                                        if (farm.getTiles()[tens][ones].getIsPlowed()) {
                                             System.out.println("This tile is already plowed.");
                                         } else {
                                             System.out.println("This tile has been plowed.");
-                                            farmer.useTool(PlowTool, farm.getTile());
+                                            farmer.useTool(PlowTool, farm.getTiles()[tens][ones]);
                                         }
                                         break;
                                     case (2): // Watering Can
-                                        if (!farm.getTile().getIsFarmed())
+                                        if (!farm.getTiles()[tens][ones].getIsFarmed())
                                         {
                                             System.out.println("There is no crop on this tile.");
-                                        } else if (farm.getTile().getTimesWateredToday() >= farm.getTile().getWaterBonusLimit()) {
+                                        } else if (farm.getTiles()[tens][ones].getTimesWateredToday() >= farm.getTiles()[0][0].getWaterBonusLimit()) {
                                             System.out.println("You have already watered this tile the maximum number of times");
                                         } else {
                                             System.out.println("This tile has been watered.");
-                                            farmer.useTool(WateringCan, farm.getTile());
+                                            farmer.useTool(WateringCan, farm.getTiles()[tens][ones]);
                                         }
                                         break;
                                     case (3): // Fertilizer
-                                        if (!farm.getTile().getIsFarmed()) {
+                                        if (!farm.getTiles()[tens][ones].getIsFarmed()) {
                                             System.out.println("There is no crop on this tile.");
-                                        } else if (farm.getTile().getTimesFertilizedToday() >= farm.getTile().getFertilizerBonusLimit()) {
+                                        } else if (farm.getTiles()[tens][ones].getTimesFertilizedToday() >= farm.getTiles()[0][0].getFertilizerBonusLimit()) {
                                             System.out.println("You have already fertilized this tile the maximum number of times");
                                         } else {
                                             System.out.println("This tile has been fertilized.");
-                                            farmer.useTool(Fertilizer, farm.getTile());
+                                            farmer.useTool(Fertilizer, farm.getTiles()[tens][ones]);
                                         }
                                         break;
                                     case (4): // Pickaxe
-                                        if (!farm.getTile().getIsRockPlaced()) {
+                                        if (!farm.getTiles()[tens][ones].getIsRockPlaced()) {
                                             System.out.println("There is no rock on this tile");
                                         } else {
                                             System.out.println("The rock on this tile has been removed.");
-                                            farmer.useTool(Pickaxe, farm.getTile());
+                                            farmer.useTool(Pickaxe, farm.getTiles()[tens][ones]);
                                         }
                                         break;
                                     case (5): // Shovel
-                                        if (farm.getTile().getIsFarmed() && farm.getTile().getIsWithered()) {
+                                        if (farm.getTiles()[tens][ones].getIsFarmed() && farm.getTiles()[tens][ones].getIsWithered()) {
                                             System.out.println("The withered crop on this tile has been removed.");
-                                            farmer.useTool(Shovel, farm.getTile());
-                                        } else if (farm.getTile().getIsFarmed()) {
+                                            farmer.useTool(Shovel, farm.getTiles()[tens][ones]);
+                                        } else if (farm.getTiles()[tens][ones].getIsFarmed()) {
                                             System.out.println("The growing crop on this tile has been removed.");
-                                            farmer.useTool(Shovel, farm.getTile());
+                                            farmer.useTool(Shovel, farm.getTiles()[tens][ones]);
                                         } else {
                                             System.out.println("There is nothing on this tile to shovel.");
                                         }
@@ -268,14 +331,14 @@ public class Game
                                         break;
                                 }
                                 break;
-                            case (3): // Plant Crops
-                                if (farm.getTile().getIsFarmed() && farm.getTile().getIsWithered()) {
+                            case (5): // Plant Crops
+                                if (farm.getTiles()[tens][ones].getIsFarmed() && farm.getTiles()[0][0].getIsWithered()) {
                                     System.out.println("There is currently a withered crop on this tile.");
-                                } else if (farm.getTile().getIsFarmed()) {
+                                } else if (farm.getTiles()[tens][ones].getIsFarmed()) {
                                     System.out.println("There is already a crop growing on this tile.");
-                                } else if (farm.getTile().getIsRockPlaced()) {
+                                } else if (farm.getTiles()[tens][ones].getIsRockPlaced()) {
                                     System.out.println("There is currently a rock on this tile.");
-                                } else if (!farm.getTile().getIsPlowed()) {
+                                } else if (!farm.getTiles()[tens][ones].getIsPlowed()) {
                                     System.out.println("You cannot plant on unplowed tiles.");
                                 } else {
                                     System.out.println("Select the seed you would like to plant on this tile");
@@ -289,35 +352,35 @@ public class Game
                                     }
                                     switch (userInput2)
                                     {
-                                        case (1) -> farmer.plantCrop(TurnipSeed, farm.getTile());
-                                        case (2) -> farmer.plantCrop(CarrotSeed, farm.getTile());
-                                        case (3) -> farmer.plantCrop(PotatoSeed, farm.getTile());
-                                        case (4) -> farmer.plantCrop(RoseSeed, farm.getTile());
-                                        case (5) -> farmer.plantCrop(TulipsSeed, farm.getTile());
-                                        case (6) -> farmer.plantCrop(SunflowerSeed, farm.getTile());
-                                        case (7) -> farmer.plantCrop(MangoSeed, farm.getTile());
-                                        case (8) -> farmer.plantCrop(AppleSeed, farm.getTile());
+                                        case (1) -> farmer.plantCrop(TurnipSeed, farm.getTiles()[tens][ones]);
+                                        case (2) -> farmer.plantCrop(CarrotSeed, farm.getTiles()[tens][ones]);
+                                        case (3) -> farmer.plantCrop(PotatoSeed, farm.getTiles()[tens][ones]);
+                                        case (4) -> farmer.plantCrop(RoseSeed, farm.getTiles()[tens][ones]);
+                                        case (5) -> farmer.plantCrop(TulipsSeed, farm.getTiles()[tens][ones]);
+                                        case (6) -> farmer.plantCrop(SunflowerSeed, farm.getTiles()[tens][ones]);
+                                        case (7) -> farmer.plantCrop(MangoSeed, tens, ones, farm.getTiles());
+                                        case (8) -> farmer.plantCrop(AppleSeed, tens, ones, farm.getTiles());
                                         default -> System.out.println("Invalid Input.");
                                     }
                                 }
                                 break;
-                            case (4): // Harvest Crops
-                                if (!farm.getTile().getIsFarmed()) {
+                            case (6): // Harvest Crops
+                                if (!farm.getTiles()[tens][ones].getIsFarmed()) {
                                     System.out.println("There is nothing on this tile to harvest.");
-                                } else if (farm.getTile().getIsWithered()) {
+                                } else if (farm.getTiles()[tens][ones].getIsWithered()) {
                                     System.out.println("This crop is already withered and cannot be harvested");
-                                } else if (!farm.getTile().getIsRipe()) {
+                                } else if (!farm.getTiles()[tens][ones].getIsRipe()) {
                                     System.out.println("This crop is not yet ready to be harvested");
                                 } else {
                                     System.out.println("The crop on this tile has been harvested");
-                                    farmer.harvestCrop(farm.getTile());
+                                    farmer.harvestCrop(farm.getTiles()[tens][ones]);
                                 }
                                 break;
-                            case (5): // Register for Higher Farmer Status
-                                farmer.registerForHigherStatus(farm.getTile());
+                            case (7): // Register for Higher Farmer Status
+                                farmer.registerForHigherStatus(farm.getTiles());
                                 break;
-                            case (6): // End Day
-                                advanceDays(farm.getTile());
+                            case (8): // End Day
+                                advanceDays(farm.getTiles()[tens][ones]);
                                 dayEnd = true;
                                 break;
                             default:
@@ -326,7 +389,7 @@ public class Game
                         }
                         farmer.levelUp();
                     } while (!dayEnd);
-                    if (farm.getTile().getIsWithered()) {
+                    if (farm.getTiles()[tens][ones].getIsWithered()) {
                         gameRun = false;
                         System.out.println("Crop wilted. Game over\n");
                         displayGameMenu();
@@ -336,7 +399,7 @@ public class Game
                         System.out.println("Out of money. Game over\n");
                         displayGameMenu();
                         GameMenu = scan.nextInt();
-                    } else if (!farm.getTile().getIsFarmed()) {
+                    } else if (!farm.getTiles()[tens][ones].getIsFarmed()) {
                         gameRun = false;
                         System.out.println("No crops growing. Game over\n");
                     } else {
